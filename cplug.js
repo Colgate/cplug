@@ -9,7 +9,7 @@ if (typeof window.cplug != "undefined") {
 
 }
 
-var cpURL = 'https://cdn.rawgit.com/Colgate/cplug/master/cplug.js',
+var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
     cplugModel = Class.extend({
     version: '1.1.0',
     userCache: {},
