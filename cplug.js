@@ -9,9 +9,9 @@ if (typeof window.cplug != "undefined") {
 
 }
 
-var cpURL = '',
+var cpURL = 'https://cdn.rawgit.com/Colgate/cplug/master/cplug.js',
     cplugModel = Class.extend({
-    version: '1.0.6',
+    version: '1.1.0',
     userCache: {},
     debug: true,
     settings: {
@@ -43,6 +43,7 @@ var cpURL = '',
             if (cplug.debug) console.log('Generating User Cache');
             cplug.functions.genCache(); 
         }, 1000)
+        this.loadSettings();
         this.initUI();
     },
     close: function() {
@@ -53,10 +54,10 @@ var cpURL = '',
         $('#cplug_css').remove();
     },
     loadSettings: function() {
-        if (typeof localStorage.mtSettings != undefined) this.settings = JSON.parse(localStorage.mtSettings)
+        if (typeof localStorage.cpSettings != undefined) this.settings = JSON.parse(localStorage.cpSettings)
     },
     saveSettings: function() {
-        localStorage.mtSettings = JSON.stringify(this.settings)
+        localStorage.cpSettings = JSON.stringify(this.settings)
     },
     initListeners: function() {
         if (this.debug) console.log('Initializing event listeners')
@@ -95,14 +96,14 @@ var cpURL = '',
                         '<center><h2>cplug <small class="v"> version ' + this.version + '</small></h2><br />' +
                         '<div id="cplug_settings" class="user-content settings" style="left: 220px; width: 400px;"><div class="container">' + 
                         '<div class="header"><span>General</span></div>' +
-                        '<div class="left"><div class="item cp-aw selected"><i class="icon icon-check-blue"></i><span>AutoWoot</span></div></div>' + 
-                        '<div class="right"><div class="item cp-aj selected"><i class="icon icon-check-blue"></i><span>AutoJoin</span></div></div>' +
+                        '<div class="left"><div class="item"><i class="icon icon-check-blue"></i><span>AutoWoot</span></div></div>' + 
+                        '<div class="right"><div class="item"><i class="icon icon-check-blue"></i><span>AutoJoin</span></div></div>' +
                         '<div class="header"><span>Notifications</span></div>' +
-                        '<div class="left"><div class="item s-av selected"><i class="icon icon-check-blue"></i><span>Notifier Enabled</span></div></div>' +
-                        '<div class="right"><div class="item s-tt"><i class="icon icon-check-blue"></i><span>Show When Focused</span></div></div>' +
+                        '<div class="left"><div class="item"><i class="icon icon-check-blue"></i><span>Notifier Enabled</span></div></div>' +
+                        '<div class="right"><div class="item"><i class="icon icon-check-blue"></i><span>Show When Focused</span></div></div>' +
                         '<div class="header"><span>Notification Types</span></div>' + 
-                        '<div class="left"><div class="item s-av selected"><i class="icon icon-check-blue"></i><span>DJ Advance</span></div></div>' +
-                        '<div class="right"><div class="item s-tt selected"><i class="icon icon-check-blue"></i><span>Chat Mention</span></div></div>' +
+                        '<div class="left"><div class="item"><i class="icon icon-check-blue"></i><span>DJ Advance</span></div></div>' +
+                        '<div class="right"><div class="item"><i class="icon icon-check-blue"></i><span>Chat Mention</span></div></div>' +
                         '</div></div></div>'
         $(settings).appendTo('#cplug_menu')
         $('.v').css('font-size', '60%')
@@ -149,18 +150,15 @@ var cpURL = '',
         if (args[0] === "/kick") API.moderateBanUser(this.functions.getUserFromArgs(data), 1, API.BAN.HOUR);
         if (args[0] === "/ban") API.moderateBanUser(this.functions.getUserFromArgs(data), 1, API.BAN.PERMA);
         if (args[0] === "/mute") API.moderateMuteUser(this.functions.getUserFromArgs(data),1, API.MUTE.SHORT);
-        if (args[0] === "/demod") API.moderateSetRole(this.functions.getUserFromArgs(data), 0);
-        if (args[0] === "/reset") {
-            var uid = this.functions.getUserFromArgs(data)
-            API.moderateSetRole(uid, this.userCache[uid].role)
-        };
         if (args[0] === "/aw") {
             cplug.settings.autoWootEnabled = !cplug.settings.autoWootEnabled;
             (this.settings.autoWootEnabled ? this.functions.chatLog('#00FF00', 'Autowoot enabled!'):this.functions.chatLog('#FF0000','Autowoot disabled!'))
+            this.saveSettings();
         }
         if (args[0] === "/aj") {
             cplug.settings.autoJoinEnabled = !cplug.settings.autoJoinEnabled;
             (this.settings.autoJoinEnabled ? this.functions.chatLog('#00FF00', 'Autojoin enabled!'):this.functions.chatLog('#FF0000','Autojoin disabled!'))
+            this.saveSettings();
         }
     },
     notifier: {
