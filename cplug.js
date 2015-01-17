@@ -11,7 +11,7 @@ if (typeof window.cplug != "undefined") {
 
 var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
     cplugModel = Class.extend({
-    version: '1.1.0',
+    version: '1.1.1',
     userCache: {},
     debug: true,
     settings: {
@@ -54,7 +54,7 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
         $('#cplug_css').remove();
     },
     loadSettings: function() {
-        if (typeof localStorage.cpSettings != "undefined") this.settings = JSON.parse(localStorage.cpSettings)
+        if (typeof localStorage.cpSettings != "undefined") cplug.settings = JSON.parse(localStorage.cpSettings)
     },
     saveSettings: function() {
         localStorage.cpSettings = JSON.stringify(this.settings)
@@ -71,11 +71,12 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
     initUI: function() {
         $('#now-playing-time, #volume').css('right','118px');
         $('#history-button').css('right', '54px');
+
         $('#history-button').after('<div style="position:absolute; right:0px; width:54px; height:54px; background-image:url(\'https://bug.dj/cplug_icon.png\'); cursor:pointer;" id="cplug_icon"></div>')
         $('#cplug_icon').mouseover(function() {
             $('<div id="tooltip" style="top: 60px; left: 1525px;" class="bottom"><div class="arrow-up"></div><span>cplug</span></div>').appendTo('body')
         })
-        $('#cplug_settings').mouseout(function() {
+        $('#cplug_icon').mouseout(function() {
             $('#tooltip').remove();
         })
         var css =   '<style type="text/css" id="cplug_css">' +
@@ -97,16 +98,17 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
                         '</div></div>'
         $(settings).appendTo('#cplug_menu')
         $('.v').css('font-size', '60%')
-
-        this.functions.menu.addHeader('General')
-        this.functions.menu.addItem('AutoWoot', 'cps_aw', 'left', 'autoWootEnabled')
-        this.functions.menu.addItem('AutoJoin', 'cps_aj', 'right', 'autoJoinEnabled')
-        this.functions.menu.addHeader('Notifications')
-        this.functions.menu.addItem('Enabled', 'cps_n_e', 'left', 'notifier', 'enabled')
-        this.functions.menu.addItem('Show On Focus', 'cps_n_f', 'right', 'notifier', 'showWhenFocused')
-        this.functions.menu.addHeader('Notification Types')
-        this.functions.menu.addItem('DJ Advance', 'cps_n_t_dja', 'left', 'notifier', 'events', 'djAdvance')
-        this.functions.menu.addItem('Chat Mention', 'cps_n_t_cm', 'right', 'notifier', 'events', 'chatMention')
+        setTimeout(function() {
+            cplug.functions.menu.addHeader('General')
+            cplug.functions.menu.addItem('AutoWoot', 'cps_aw', 'left', 'autoWootEnabled')
+            cplug.functions.menu.addItem('AutoJoin', 'cps_aj', 'right', 'autoJoinEnabled')
+            cplug.functions.menu.addHeader('Notifications')
+            cplug.functions.menu.addItem('Enabled', 'cps_n_e', 'left', 'notifier', 'enabled')
+            cplug.functions.menu.addItem('Show On Focus', 'cps_n_f', 'right', 'notifier', 'showWhenFocused')
+            cplug.functions.menu.addHeader('Notification Types')
+            cplug.functions.menu.addItem('DJ Advance', 'cps_n_t_dja', 'left', 'notifier', 'events', 'djAdvance')
+            cplug.functions.menu.addItem('Chat Mention', 'cps_n_t_cm', 'right', 'notifier', 'events', 'chatMention')
+        }, 500)
     },
     toggleUI: function() {
         ($('#cplug_menu').css('top') != "54px" ? $('#cplug_menu').animate({'top':'54px'}, 500):$('#cplug_menu').animate({'top':'-' + $('#cplug_menu').css('height')}, 500))
