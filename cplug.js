@@ -97,7 +97,16 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
                         '</div></div>'
         $(settings).appendTo('#cplug_menu')
         $('.v').css('font-size', '60%')
+
         this.functions.menu.addHeader('General')
+        this.functions.menu.addItem('AutoWoot', 'cps_aw', 'left', 'autoWootEnabled')
+        this.functions.menu.addItem('AutoJoin', 'cps_aj', 'right', 'autoJoinEnabled')
+        this.functions.menu.addHeader('Notifications')
+        this.functions.menu.addItem('Enabled', 'cps_n_e', 'left', 'notifier', 'enabled')
+        this.functions.menu.addItem('Show On Focus', 'cps_n_f', 'right', 'notifier', 'showWhenFocused')
+        this.functions.menu.addHeader('Notification Types')
+        this.functions.menu.addItem('DJ Advance', 'cps_n_t_dja', 'left', 'notifier', 'events', 'djAdvance')
+        this.functions.menu.addItem('Chat Mention', 'cps_n_t_cm', 'right', 'notifier', 'events', 'chatMention')
     },
     toggleUI: function() {
         ($('#cplug_menu').css('top') != "54px" ? $('#cplug_menu').animate({'top':'54px'}, 500):$('#cplug_menu').animate({'top':'-' + $('#cplug_menu').css('height')}, 500))
@@ -190,8 +199,24 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
             }
         },
         menu: {
-            addItem: function(displayName, side, parentSetting) {
-                $('<div class="' + side + '"><div id="' + shortname + '" class="item"><i class="icon icon-check-blue"></i><span>' + displayName + '</span></div></div>').appendTo('#cplug_settings .container')
+            addItem: function(displayName, shortname, side, parentSetting, childSetting, subChild) {
+                if (subChild) var checked = cplug.settings[parentSetting][childSetting][subChild]
+                else if (childSetting) var checked = cplug.settings[parentSetting][childSetting]
+                else var checked = cplug.settings[parentSetting]
+                $('<div class="' + side + '"><div id="' + shortname + '" class="item ' + (checked ? "selected": "") + '"><i class="icon icon-check-blue"></i><span>' + displayName + '</span></div></div>').appendTo('#cplug_settings .container')
+                $('#' + shortname).click(function(e) {
+                    if (subChild) {
+                        cplug.settings[parentSetting][childSetting][subChild]=!cplug.settings[parentSetting][childSetting][subChild];
+                        cplug.settings[parentSetting][childSetting][subChild] ? $(this).addClass('selected'):$(this).removeClass('selected')
+                    } else if (childSetting) {
+                        cplug.settings[parentSetting][childSetting]=!cplug.settings[parentSetting][childSetting];
+                        cplug.settings[parentSetting][childSetting] ? $(this).addClass('selected'):$(this).removeClass('selected')
+                    } else {
+                    cplug.settings[parentSetting]=!cplug.settings[parentSetting];
+                    cplug.settings[parentSetting] ? $(this).addClass('selected'):$(this).removeClass('selected')
+                    }
+                    cplug.saveSettings();
+                })
             },
             addHeader: function(val) {
                 $('<div class="header"><span>' + val + '</span></div>').appendTo('#cplug_settings .container')
