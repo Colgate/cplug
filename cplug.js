@@ -48,7 +48,7 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
     },
     close: function() {
         this.killListeners();
-        $('#cplug_settings, #cplug_menu').remove();
+        $('#cplug_icon, #cplug_menu').remove();
         $('#now-playing-time, #volume').css('right','54px');
         $('#history-button').css('right', '0px');
         $('#cplug_css').remove();
@@ -71,8 +71,8 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
     initUI: function() {
         $('#now-playing-time, #volume').css('right','118px');
         $('#history-button').css('right', '54px');
-        $('#history-button').after('<div style="position:absolute; right:0px; width:54px; height:54px; background-image:url(\'https://bug.dj/cplug_icon.png\'); cursor:pointer;" id="cplug_settings"></div>')
-        $('#cplug_settings').mouseover(function() {
+        $('#history-button').after('<div style="position:absolute; right:0px; width:54px; height:54px; background-image:url(\'https://bug.dj/cplug_icon.png\'); cursor:pointer;" id="cplug_icon"></div>')
+        $('#cplug_icon').mouseover(function() {
             $('<div id="tooltip" style="top: 60px; left: 1525px;" class="bottom"><div class="arrow-up"></div><span>cplug</span></div>').appendTo('body')
         })
         $('#cplug_settings').mouseout(function() {
@@ -90,26 +90,17 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
                     '#cplug_settings .container .dropdown{position:absolute;top:37px;float:none;max-width:300px;width:90%}' +
                     '</style>'
                     $('head').append(css)
-        $('#cplug_settings').click(function() { cplug.toggleUI();})
+        $('#cplug_icon').click(function() { cplug.toggleUI();})
         $('<div id="cplug_menu" style="padding: 10px 25px; position:absolute; float: left; top:-832px; right: 345px; height:350px; width: 400px; background: #1c1f25;z-index: 10"></div>').appendTo('#room')
-        var settings =  '<div class="container">' +
-                        '<center><h2>cplug <small class="v"> version ' + this.version + '</small></h2><br />' +
+        var settings =  '<center><h2>cplug <small class="v"> version ' + this.version + '</small></h2><br />' +
                         '<div id="cplug_settings" class="user-content settings" style="left: 220px; width: 400px;"><div class="container">' + 
-                        '<div class="header"><span>General</span></div>' +
-                        '<div class="left"><div class="item"><i class="icon icon-check-blue"></i><span>AutoWoot</span></div></div>' + 
-                        '<div class="right"><div class="item"><i class="icon icon-check-blue"></i><span>AutoJoin</span></div></div>' +
-                        '<div class="header"><span>Notifications</span></div>' +
-                        '<div class="left"><div class="item"><i class="icon icon-check-blue"></i><span>Notifier Enabled</span></div></div>' +
-                        '<div class="right"><div class="item"><i class="icon icon-check-blue"></i><span>Show When Focused</span></div></div>' +
-                        '<div class="header"><span>Notification Types</span></div>' + 
-                        '<div class="left"><div class="item"><i class="icon icon-check-blue"></i><span>DJ Advance</span></div></div>' +
-                        '<div class="right"><div class="item"><i class="icon icon-check-blue"></i><span>Chat Mention</span></div></div>' +
-                        '</div></div></div>'
+                        '</div></div>'
         $(settings).appendTo('#cplug_menu')
         $('.v').css('font-size', '60%')
+        this.functions.menu.addHeader('General')
     },
     toggleUI: function() {
-        ($('#cplug_menu').css('top') != "54px" ? $('#cplug_menu').animate({'top':'54px'}, 500):$('#cplug_menu').animate({'top':'-350px'}, 500))
+        ($('#cplug_menu').css('top') != "54px" ? $('#cplug_menu').animate({'top':'54px'}, 500):$('#cplug_menu').animate({'top':'-' + $('#cplug_menu').css('height')}, 500))
     },
     killListeners: function() {
         if (this.debug) console.log('Killing event listeners')
@@ -196,6 +187,14 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
                 if (args.indexOf(cache[i].username) > -1) {
                     return cache[i].id
                 }
+            }
+        },
+        menu: {
+            addItem: function(displayName, side, parentSetting) {
+                $('<div class="' + side + '"><div id="' + shortname + '" class="item"><i class="icon icon-check-blue"></i><span>' + displayName + '</span></div></div>').appendTo('#cplug_settings .container')
+            },
+            addHeader: function(val) {
+                $('<div class="header"><span>' + val + '</span></div>').appendTo('#cplug_settings .container')
             }
         }
     }
