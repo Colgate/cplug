@@ -54,7 +54,7 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
         $('#cplug_css').remove();
     },
     loadSettings: function() {
-        if (typeof localStorage.cpSettings != "undefined") cplug.settings = JSON.parse(localStorage.cpSettings)
+        if (typeof localStorage.cpSettings != "undefined") this.settings = JSON.parse(localStorage.cpSettings)
     },
     saveSettings: function() {
         localStorage.cpSettings = JSON.stringify(this.settings)
