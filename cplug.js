@@ -72,7 +72,7 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
         $('#now-playing-time, #volume').css('right','118px');
         $('#history-button').css('right', '54px');
 
-        $('#history-button').after('<div style="position:absolute; right:0px; width:54px; height:54px; background-image:url(\'https://bug.dj/cplug_icon.png\'); cursor:pointer;" id="cplug_icon"></div>')
+        $('#history-button').after('<div style="position:absolute; right:0px; width:54px; height:54px; background-image:url(\'https://cdn.rawgit.com/colgate/cplug/master/resources/images/cplug_icon.png\'); cursor:pointer;" id="cplug_icon"></div>')
         $('#cplug_icon').mouseover(function() {
             $('<div id="tooltip" style="top: 60px; left: 1525px;" class="bottom"><div class="arrow-up"></div><span>cplug</span></div>').appendTo('body')
         })
