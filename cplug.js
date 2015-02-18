@@ -11,7 +11,7 @@ if (typeof window.cplug != "undefined") {
 
 var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
     cplugModel = Class.extend({
-    version: '1.1.1',
+    version: '1.1.2',
     userCache: {},
     debug: true,
     settings: {
@@ -147,6 +147,8 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
     },
     handleChatCommands: function(data) {
         var args = data.replace('@', '').split(' ')
+        if (args[0] === "/woot") this.functions.woot();
+        if (args[0] === "/meh") this.functions.meh();
         if (args[0] === "/reload") $.getScript(cpURL);
         if (args[0] === "/skip") API.moderateForceSkip();
         if (args[0] === "/kick") API.moderateBanUser(this.functions.getUserFromArgs(data), 1, API.BAN.HOUR);
