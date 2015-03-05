@@ -11,7 +11,7 @@ if (typeof window.cplug != "undefined") {
 
 var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
     cplugModel = Class.extend({
-    version: '1.1.3',
+    version: '1.1.2',
     userCache: {},
     debug: true,
     settings: {
@@ -92,7 +92,7 @@ var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
                     '</style>'
                     $('head').append(css)
         $('#cplug_icon').click(function() { cplug.toggleUI();})
-        $('<div id="cplug_menu" style="padding: 10px 25px; position:absolute; float: left; top:-832px; right: 345px; height:350px; width: 400px; background: #1c1f25;z-index: 100"></div>').appendTo('#room')
+        $('<div id="cplug_menu" style="padding: 10px 25px; position:absolute; float: left; top:-832px; right: 345px; height:350px; width: 400px; background: #1c1f25;z-index: 10"></div>').appendTo('#room')
         var settings =  '<center><h2>cplug <small class="v"> version ' + this.version + '</small></h2><br />' +
                         '<div id="cplug_settings" class="user-content settings" style="left: 220px; width: 400px;"><div class="container">' + 
                         '</div></div>'
