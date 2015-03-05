@@ -11,7 +11,7 @@ if (typeof window.cplug != "undefined") {
 
 var cpURL = 'https://rawgit.com/Colgate/cplug/master/cplug.js',
     cplugModel = Class.extend({
-    version: '1.1.2',
+    version: '1.1.3',
     userCache: {},
     debug: true,
     settings: {
